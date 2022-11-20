@@ -8,6 +8,7 @@ use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use Slim\Views\Twig;
 
+
 class MessageController
 {
     public function index(ServerRequest $request, Response $response)
@@ -44,9 +45,21 @@ class MessageController
             ]);
         }
 
+        $this->sendMessageToGo($messageData['message']);
+
         $repo->create($messageData);
 
         return $response->withRedirect('/messages');
+    }
+
+    public function sendMessageToGo(String $messageData){
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('POST', 'http://localhost:8081/message', [
+            'form_params' => [
+                'message' => $messageData
+            ]
+        ]);
+        echo $response->getBody();
     }
 
 }
