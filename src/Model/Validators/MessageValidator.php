@@ -42,13 +42,13 @@ class MessageValidator implements ValidatorInterface
 
         if ($titleLength < self::MIN_TITLE_LENGTH) {
             return [
-                'title' => 'Сообщение не может быть меньше ' . self::MIN_TITLE_LENGTH . ' символов'
+                'message' => 'Сообщение не может быть меньше ' . self::MIN_TITLE_LENGTH . ' символов'
             ];
         }
 
         if ($titleLength > self::MAX_TITLE_LENGTH) {
             return [
-                'title' => 'Сообщение не может быть больше ' . self::MAX_TITLE_LENGTH . ' символов'
+                'message' => 'Сообщение не может быть больше ' . self::MAX_TITLE_LENGTH . ' символов'
             ];
         }
 
