@@ -1,29 +1,32 @@
 {% extends "base.twig" %}
 
 {% block body %}
-    <h1>Напишите сообщение для бота</h1>
-    {% if errors is not empty %}
-        <div style="color: red">При сохранении произошла ошибка</div>
-        <ul>
-            {% for error in errors %}
-                <li>
-                    {{ error }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <form action="/message" method="POST">
-        <div>
-            <label>
-                Сообщение *
-                <textarea class="msgArea" type="text" name="message[message]" value="{{ data.message ?? '' }}"></textarea>
-                {% if errors.title %}
-                    <div style="color: red">{{ errors.title }}</div>
-                {% endif %}
-            </label>
-        </div>
-        <br>
-        <input type="submit" value="Отправить">
-    </form>
+    <div class="center">
+        <h1>Напишите сообщение для бота</h1>
+        {% if errors is not empty %}
+            <div style="color: red">При сохранении произошла ошибка</div>
+            <ul>
+                {% for error in errors %}
+                    <li>
+                        {{ error }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form action="/message" method="POST">
+            <div>
+                <label>
+                    Сообщение *
+                    <textarea style="width: 100%;box-sizing: border-box;resize: none;" class="msgArea" type="text" name="message[message]" value="{{ data.message ?? '' }}"></textarea>
+                    {% if errors.title %}
+                        <div style="color: red">{{ errors.title }}</div>
+                    {% endif %}
+                </label>
+            </div>
+            <br>
+            <input type="submit" value="Отправить">
+        </form>
+    </div>
+
 {% endblock %}
 

@@ -3,7 +3,7 @@
 namespace App\Model\Repository;
 
 use App\Model\Entity\Message;
-
+//TODO сервис для отправки
 include('database.php');
 class MessageRepository
 {
@@ -11,6 +11,7 @@ class MessageRepository
     private $dbUser = DB_USER;
     private $dbPass = DB_PASSWORD;
     private $dbName = DB_NAME;
+
     public function getAll()
     {
         $result = [];
@@ -59,7 +60,7 @@ class MessageRepository
         $sql = 'INSERT INTO messages(`message`) VALUES ("' . $message . '")';
 
         $result = mysqli_query($conn, $sql);
-        if ($result == false) {
+        if (!$result) {
             return false;
         }
         mysqli_close($conn);

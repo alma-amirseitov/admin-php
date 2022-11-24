@@ -1,17 +1,20 @@
 {% extends "base.twig" %}
 
 {% block body %}
-	<h1>История сообщений</h1>
-	<table>
-		<tr>
-			<th>Id</th>
-			<th>Message</th>
-		</tr>
-		{% for message in messages %}
+	<div class="center">
+		<h1>История сообщений</h1>
+		<table>
 			<tr>
-				<td>{{ message.getId() }}</td>
-				<td>{{ message.getMessage() }}</td>
+				<th>Id</th>
+				<th>Message</th>
 			</tr>
-		{% endfor %}
-	</table>
+			{% for message in messages %}
+				<tr>
+					<td>{{ message.getId() }}</td>
+					<td>{{ message.getMessage() }}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+
 {% endblock %}
