@@ -2,22 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Repository\MessageRepository;
+use App\Model\Services\MessageService;
 use App\Model\Validators\MessageValidator;
 use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use Slim\Views\Twig;
 
-
+//TODO контроллер не должен ходить в репо
 class MessageController
 {
+    protected MessageService $messageService;
+
+    /**
+     * @param MessageService $messageService
+     */
+    public function __construct()
+    {
+        $messageService = new MessageService();
+        $this->messageService = $messageService;
+    }
+
+
     public function index(ServerRequest $request, Response $response)
     {
-        $messagesRepo = new MessageRepository();
-        $messages = $messagesRepo->getAll();
-
+        $messages = $this->messageService->getAllMessages();
         $view = Twig::fromRequest($request);
-
         return $view->render($response, 'showMessages.twig', ['messages' => $messages]);
     }
 
@@ -30,12 +39,17 @@ class MessageController
 
     public function sendMessage(ServerRequest $request, Response $response)
     {
-        $repo         = new MessageRepository();
+        //дату в сервис
+        //обработку ошибки
+        //логирование
+        //try catch в сервисе
+        //тесты
+        //добавить коонфигы
+        //const keyParam
         $messageData  = $request->getParsedBodyParam('message', []);
 
         $validator = new MessageValidator();
         $errors    = $validator->validate($messageData);
-
         if (!empty($errors)) {
             $view = Twig::fromRequest($request);
 
@@ -44,16 +58,17 @@ class MessageController
                 'errors' => $errors,
             ]);
         }
-
+        $this->messageService->saveMessage($messageData);
         $this->sendMessageToGo($messageData['message']);
-
-        $repo->create($messageData);
-
         return $response->withRedirect('/messages');
     }
 
     public function sendMessageToGo(String $messageData){
         $client = new \GuzzleHttp\Client();
+        //создать модель и вынести оответ
+        //модель коотоорый принемает  message data return array
+        // php migrate
+        // codeseption
         $response = $client->request('POST', 'http://localhost:8081/message', [
             'form_params' => [
                 'message' => $messageData
